@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Fejldialog som overlay ("Fejl ved registrering", lagringsfejl m.m.).
+     Teksterne sættes af controlleren. messagesBox fyldes med én Label pr. fejlbesked (style: error-text). -->
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="480" styleClass="dialog"
+      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="awesomegarn.presentation.dialog.ErrorDialogController">
+    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="dialog-header">
+        <ImageView fitHeight="26" fitWidth="26" preserveRatio="true" smooth="true">
+            <image>
+                <Image url="@../images/warning.png"/>
+            </image>
+        </ImageView>
+        <Label fx:id="titleLabel" styleClass="dialog-title" text="Fejl ved registrering"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button onAction="#onClose" styleClass="icon-button" text="✕"/>
+    </HBox>
+    <VBox spacing="12">
+        <padding>
+            <Insets bottom="18" left="20" right="20" top="16"/>
+        </padding>
+        <Label fx:id="introLabel" text="Garnet kunne ikke registreres, fordi der er fejl i dine oplysninger."
+               wrapText="true"/>
+        <VBox fx:id="messagesBox" spacing="6" styleClass="error-list"/>
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="okButton" defaultButton="true" onAction="#onClose" styleClass="primary-button"
+                    text="Ret oplysninger"/>
+        </HBox>
+    </VBox>
+</VBox>

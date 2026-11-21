@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<!-- Oversigten: filtre, søgning, tabel, SUM og tom-tilstande.
+     Kolonneoverskrifterne er Labels, hvor id = navnet på SortField (bruges af onSortHeaderClicked). -->
+<VBox spacing="12" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="awesomegarn.presentation.overview.YarnOverviewController">
+    <padding>
+        <Insets bottom="18" left="24" right="24" top="16"/>
+    </padding>
+
+    <!-- Øverste række: filtre til venstre, "Tilføj garn" og søgning til højre -->
+    <BorderPane>
+        <left>
+            <HBox alignment="CENTER_LEFT" spacing="10" BorderPane.alignment="TOP_LEFT">
+                <Label styleClass="filter-label" text="Filtre:"/>
+                <ComboBox fx:id="colorFilter" promptText="Farve" styleClass="filter-chip"/>
+                <ComboBox fx:id="materialFilter" promptText="Materiale" styleClass="filter-chip"/>
+                <ComboBox fx:id="manufacturerFilter" promptText="Producent" styleClass="filter-chip"/>
+                <ComboBox fx:id="needleFilter" promptText="Pind (mm)" styleClass="filter-chip"/>
+                <Button fx:id="resetFiltersButton" onAction="#onResetFilters" styleClass="reset-chip"
+                        text="Nulstil filtre  ✕"/>
+            </HBox>
+        </left>
+        <right>
+            <VBox prefWidth="210" spacing="8">
+                <Button fx:id="addYarnButton" maxWidth="Infinity" onAction="#onAddYarn" styleClass="primary-button"
+                        text="Tilføj garn  +"/>
+                <HBox alignment="CENTER_RIGHT" spacing="6" styleClass="search-box">
+                    <TextField fx:id="searchField" promptText="Søg..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                    <SVGPath content="M 7 1 A 6 6 0 1 0 7 13 A 6 6 0 1 0 7 1 M 11.5 11.5 L 17 17" fill="TRANSPARENT"
+                             stroke="#0C2631" strokeWidth="1.8"/>
+                </HBox>
+            </VBox>
+        </right>
+    </BorderPane>
+
+    <!-- Midten: tabellen, eller en af to tom-tilstande (controlleren skifter mellem dem) -->
+    <StackPane VBox.vgrow="ALWAYS">
+        <TableView fx:id="yarnTable" fixedCellSize="40" styleClass="yarn-table">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colorColumn" prefWidth="110" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="COLOR" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Farve  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <TableColumn fx:id="weightColumn" prefWidth="90" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="WEIGHT" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Vægt  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <TableColumn fx:id="skeinsColumn" prefWidth="80" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="SKEINS" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Nøgler  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <TableColumn fx:id="materialColumn" prefWidth="110" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="MATERIAL" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Materiale  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <TableColumn fx:id="manufacturerColumn" prefWidth="130" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="MANUFACTURER" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Producent  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <TableColumn fx:id="needleColumn" prefWidth="100" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="NEEDLE" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Pind (mm)  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <TableColumn fx:id="washingColumn" prefWidth="80" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="WASHING" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Vask  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <TableColumn fx:id="dyeLotColumn" prefWidth="150" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="DYE_LOT" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Indfarvning  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <TableColumn fx:id="fiberColumn" prefWidth="160" reorderable="false" sortable="false">
+                    <graphic>
+                        <Label id="FIBER" maxWidth="Infinity" onMouseClicked="#onSortHeaderClicked"
+                               styleClass="sort-header" text="Fiber  ▴▾"/>
+                    </graphic>
+                </TableColumn>
+                <!-- Rediger- og slet-knapper pr. række laves i controlleren (cell factory) -->
+                <TableColumn fx:id="actionsColumn" maxWidth="90" minWidth="90" prefWidth="90" reorderable="false"
+                             sortable="false"/>
+            </columns>
+        </TableView>
+
+        <!-- Vises når der slet ikke er registreret garn -->
+        <VBox fx:id="noYarnState" alignment="CENTER" managed="false" spacing="8" visible="false">
+            <ImageView fitWidth="300" preserveRatio="true" smooth="true">
+                <image>
+                    <Image url="@../images/empty_basket.png"/>
+                </image>
+            </ImageView>
+            <Label styleClass="empty-title" text="Du har endnu ikke registreret garn"/>
+            <Label styleClass="empty-subtitle" text="Tilføj dit første garn for at komme i gang med at skabe overblik over din beholdning."
+                   wrapText="true"/>
+        </VBox>
+
+        <!-- Vises når filtre/søgning ikke matcher noget -->
+        <VBox fx:id="noMatchState" alignment="CENTER" managed="false" spacing="8" visible="false">
+            <ImageView fitWidth="300" preserveRatio="true" smooth="true">
+                <image>
+                    <Image url="@../images/empty_basket.png"/>
+                </image>
+            </ImageView>
+            <Label styleClass="empty-title" text="Ingen garn matcher din søgning"/>
+            <Label styleClass="empty-subtitle" text="Prøv at ændre dine filtre eller nulstil filtrene for at se alle dine garn."
+                   wrapText="true"/>
+        </VBox>
+    </StackPane>
+
+    <!-- Bundlinje: samlet vægt og antal nøgler for de viste garn (FK-11) -->
+    <HBox alignment="CENTER_LEFT" spacing="28" styleClass="summary-bar">
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" smooth="true">
+                <image>
+                    <Image url="@../images/icon_weight_total.png"/>
+                </image>
+            </ImageView>
+            <Label fx:id="weightSummaryLabel" text="Samlet vægt: 0 g"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" smooth="true">
+                <image>
+                    <Image url="@../images/icon_skeins_total.png"/>
+                </image>
+            </ImageView>
+            <Label fx:id="skeinsSummaryLabel" text="Antal nøgler: 0"/>
+        </HBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="shownCountLabel" styleClass="muted"/>
+    </HBox>
+</VBox>

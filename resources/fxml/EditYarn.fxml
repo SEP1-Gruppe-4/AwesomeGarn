@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+
+<!-- "Rediger garn": samme formular som "Tilføj garn", men forudfyldt af controlleren.
+     Vises som en side i samme vindue (ikke et nyt Stage). -->
+<ScrollPane fitToWidth="true" styleClass="transparent-scroll" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="awesomegarn.presentation.edityarn.EditYarnController">
+    <padding>
+        <Insets bottom="16" left="24" right="24" top="16"/>
+    </padding>
+    <fx:include fx:id="form" source="YarnForm.fxml"/>
+</ScrollPane>

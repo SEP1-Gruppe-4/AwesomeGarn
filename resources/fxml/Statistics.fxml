@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<!-- Statistik (FK-12): to kort (nøgler og vægt) og garntyper pr. primær fiber.
+     Er beholdningen tom, skjuler controlleren fiberPanel og viser emptyState. -->
+<VBox spacing="18" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="awesomegarn.presentation.statistics.StatisticsController">
+    <padding>
+        <Insets bottom="20" left="24" right="24" top="20"/>
+    </padding>
+
+    <HBox spacing="18">
+        <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="18" styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="54" fitWidth="54" preserveRatio="true" smooth="true">
+                <image>
+                    <Image url="@../images/icon_skeins_total.png"/>
+                </image>
+            </ImageView>
+            <VBox spacing="2">
+                <Label styleClass="stat-title" text="Samlet antal nøgler"/>
+                <Label fx:id="totalSkeinsLabel" styleClass="stat-value" text="0"/>
+            </VBox>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="18" styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="54" fitWidth="54" preserveRatio="true" smooth="true">
+                <image>
+                    <Image url="@../images/icon_weight_total.png"/>
+                </image>
+            </ImageView>
+            <VBox spacing="2">
+                <Label styleClass="stat-title" text="Samlet vægt (gram)"/>
+                <Label fx:id="totalWeightLabel" styleClass="stat-value" text="0 g"/>
+            </VBox>
+        </HBox>
+    </HBox>
+
+    <!-- Garntyper pr. primær fiber -->
+    <VBox fx:id="fiberPanel" spacing="10" styleClass="stat-card" VBox.vgrow="ALWAYS">
+        <Label styleClass="stat-panel-title" text="Garntyper pr. primær fiber"/>
+        <HBox alignment="CENTER_LEFT" spacing="40">
+            <!-- Cirkeldiagram med hul i midten (JavaFX har ikke et donut-diagram) -->
+            <StackPane maxHeight="300" maxWidth="300" minHeight="300" minWidth="300" prefHeight="300" prefWidth="300">
+                <PieChart fx:id="fiberChart" animated="false" labelLineLength="8" legendVisible="false"
+                          maxHeight="300" maxWidth="300" minHeight="300" minWidth="300" prefHeight="300"
+                          prefWidth="300" startAngle="90"/>
+                <Circle mouseTransparent="true" radius="62" styleClass="donut-hole"/>
+                <VBox alignment="CENTER" mouseTransparent="true">
+                    <ImageView fitHeight="30" fitWidth="30" preserveRatio="true" smooth="true">
+                        <image>
+                            <Image url="@../images/icon_chart_center.png"/>
+                        </image>
+                    </ImageView>
+                    <Label fx:id="donutCountLabel" styleClass="donut-number" text="0"/>
+                    <Label text="garntyper"/>
+                </VBox>
+            </StackPane>
+
+            <VBox spacing="14" HBox.hgrow="ALWAYS">
+                <Label fx:id="primaryFiberLabel" graphicTextGap="8" styleClass="fiber-badge" text="Primær fiber: –">
+                    <graphic>
+                        <ImageView fitHeight="22" fitWidth="22" preserveRatio="true" smooth="true">
+                            <image>
+                                <Image url="@../images/icon_primary_fiber.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Label>
+
+                <!-- Overskriftsrækken ligger her. Controlleren tilføjer én række pr. materiale (række 1, 2, ...). -->
+                <GridPane fx:id="materialGrid" styleClass="fiber-table">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="150"/>
+                        <ColumnConstraints prefWidth="140"/>
+                        <ColumnConstraints prefWidth="120"/>
+                    </columnConstraints>
+                    <Label maxWidth="Infinity" styleClass="fiber-head" text="Fiber" GridPane.columnIndex="0"
+                           GridPane.rowIndex="0"/>
+                    <Label alignment="CENTER" maxWidth="Infinity" styleClass="fiber-head" text="Antal garntyper"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label alignment="CENTER" maxWidth="Infinity" styleClass="fiber-head" text="Antal nøgler"
+                           GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                </GridPane>
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <!-- Vises i stedet for fiberPanel, når der ikke er registreret garn -->
+    <VBox fx:id="emptyState" alignment="CENTER" managed="false" spacing="8" visible="false" VBox.vgrow="ALWAYS">
+        <ImageView fitWidth="300" preserveRatio="true" smooth="true">
+            <image>
+                <Image url="@../images/empty_basket.png"/>
+            </image>
+        </ImageView>
+        <Label styleClass="empty-title" text="Du har endnu ikke registreret garn"/>
+        <Label styleClass="empty-subtitle" text="Tilføj dit første garn for at se statistik over din beholdning."
+               wrapText="true"/>
+    </VBox>
+</VBox>

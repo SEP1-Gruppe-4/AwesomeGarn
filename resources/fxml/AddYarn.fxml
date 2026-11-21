@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+
+<!-- "Tilføj garn": en ScrollPane om den fælles formular (YarnForm.fxml).
+     fx:id="form" giver controlleren adgang til formularens controller via feltet "formController". -->
+<ScrollPane fitToWidth="true" styleClass="transparent-scroll" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="awesomegarn.presentation.addyarn.AddYarnController">
+    <padding>
+        <Insets bottom="16" left="24" right="24" top="16"/>
+    </padding>
+    <fx:include fx:id="form" source="YarnForm.fxml"/>
+</ScrollPane>

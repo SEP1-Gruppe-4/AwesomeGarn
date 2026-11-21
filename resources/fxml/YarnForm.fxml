@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Den fælles formular til "Tilføj garn" og "Rediger garn" (inkluderes via fx:include).
+     Overskrift, undertekst og knaptekst sættes af controlleren, så Add og Edit kan genbruge den.
+     Fejlteksterne under felterne er skjulte, indtil validering fejler. -->
+<VBox spacing="16" styleClass="form-card" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="awesomegarn.presentation.yarnform.YarnFormController">
+    <padding>
+        <Insets bottom="20" left="24" right="24" top="20"/>
+    </padding>
+
+    <!-- Overskrift -->
+    <HBox alignment="CENTER_LEFT">
+        <Button fx:id="backButton" minWidth="190" onAction="#onBack" styleClass="secondary-button"
+                text="←  Tilbage til oversigt"/>
+        <VBox alignment="CENTER" spacing="2" HBox.hgrow="ALWAYS">
+            <Label fx:id="titleLabel" graphicTextGap="10" styleClass="form-title" text="Tilføj garn">
+                <graphic>
+                    <ImageView fitHeight="34" fitWidth="34" preserveRatio="true" smooth="true">
+                        <image>
+                            <Image url="@../images/icon_color.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Label>
+            <Label fx:id="subtitleLabel" text="Registrér garn i systemet. Obligatoriske felter er markeret med *."/>
+        </VBox>
+        <Region prefWidth="190"/>
+    </HBox>
+
+    <!-- To paneler: obligatoriske og valgfrie oplysninger -->
+    <HBox spacing="20">
+        <!-- Obligatoriske oplysninger (FK-01) -->
+        <VBox styleClass="panel" HBox.hgrow="ALWAYS">
+            <Label maxWidth="Infinity" styleClass="panel-header-label" text="Obligatoriske oplysninger"/>
+            <GridPane hgap="12" vgap="10">
+                <padding>
+                    <Insets bottom="14" left="16" right="16" top="14"/>
+                </padding>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="150" prefWidth="180"/>
+                    <ColumnConstraints minWidth="30"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <!-- Farve -->
+                <HBox alignment="CENTER_LEFT" spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label styleClass="form-label" text="Farve"/>
+                    <Label styleClass="required-star" text="*"/>
+                </HBox>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="0">
+                    <image>
+                        <Image url="@../images/icon_color.png"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <ComboBox fx:id="colorBox" maxWidth="Infinity" promptText="Vælg farve" styleClass="form-field"/>
+                    <Label fx:id="colorError" managed="false" styleClass="field-error-text" visible="false" wrapText="true"/>
+                </VBox>
+
+                <!-- Primært materiale -->
+                <HBox alignment="CENTER_LEFT" spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label styleClass="form-label" text="Primært materiale" wrapText="true"/>
+                    <Label styleClass="required-star" text="*"/>
+                </HBox>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="1">
+                    <image>
+                        <Image url="@../images/icon_material.png"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <ComboBox fx:id="materialBox" maxWidth="Infinity" promptText="Vælg materiale" styleClass="form-field"/>
+                    <Label fx:id="materialError" managed="false" styleClass="field-error-text" visible="false"
+                           wrapText="true"/>
+                </VBox>
+
+                <!-- Vægt (samlet vægt for posten) -->
+                <HBox alignment="CENTER_LEFT" spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Label styleClass="form-label" text="Vægt"/>
+                    <Label styleClass="required-star" text="*"/>
+                </HBox>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="2">
+                    <image>
+                        <Image url="@../images/icon_weight.png"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <TextField fx:id="weightField" maxWidth="Infinity" promptText="Indtast vægt" HBox.hgrow="ALWAYS"/>
+                        <Label text="g"/>
+                        <Label>
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" smooth="true">
+                                    <image>
+                                        <Image url="@../images/info.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <tooltip>
+                                <Tooltip text="Samlet vægt for hele posten i gram (ikke pr. nøgle)."/>
+                            </tooltip>
+                        </Label>
+                    </HBox>
+                    <Label fx:id="weightError" managed="false" styleClass="field-error-text" visible="false" wrapText="true"/>
+                </VBox>
+
+                <!-- Antal nøgler -->
+                <HBox alignment="CENTER_LEFT" spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                    <Label styleClass="form-label" text="Antal nøgler"/>
+                    <Label styleClass="required-star" text="*"/>
+                </HBox>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="3">
+                    <image>
+                        <Image url="@../images/icon_skeins.png"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                    <!-- Værdiområdet (1-9999, start 1) sættes i YarnFormController.setup(...) -->
+                    <Spinner fx:id="skeinsSpinner" editable="true" maxWidth="Infinity" prefWidth="110"/>
+                    <Label fx:id="skeinsError" managed="false" styleClass="field-error-text" visible="false" wrapText="true"/>
+                </VBox>
+            </GridPane>
+        </VBox>
+
+        <!-- Valgfrie oplysninger (FK-02) -->
+        <VBox styleClass="panel" HBox.hgrow="ALWAYS">
+            <Label maxWidth="Infinity" styleClass="panel-header-label" text="Valgfrie oplysninger"/>
+            <GridPane hgap="12" vgap="10">
+                <padding>
+                    <Insets bottom="14" left="16" right="16" top="14"/>
+                </padding>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="150" prefWidth="180"/>
+                    <ColumnConstraints minWidth="30"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <Label styleClass="form-label" text="Fibersammensætning" wrapText="true" GridPane.columnIndex="0"
+                       GridPane.rowIndex="0"/>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="0">
+                    <image>
+                        <Image url="@../images/icon_fiber.png"/>
+                    </image>
+                </ImageView>
+                <TextField fx:id="fiberField" promptText="Fx 70% uld, 30% bomuld" GridPane.columnIndex="2"
+                           GridPane.rowIndex="0"/>
+
+                <Label styleClass="form-label" text="Producent" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="1">
+                    <image>
+                        <Image url="@../images/icon_manufacturer.png"/>
+                    </image>
+                </ImageView>
+                <TextField fx:id="manufacturerField" promptText="Fx Sandnes Garn" GridPane.columnIndex="2"
+                           GridPane.rowIndex="1"/>
+
+                <Label styleClass="form-label" text="Indfarvningsnummer" wrapText="true" GridPane.columnIndex="0"
+                       GridPane.rowIndex="2"/>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="2">
+                    <image>
+                        <Image url="@../images/icon_dyelot.png"/>
+                    </image>
+                </ImageView>
+                <TextField fx:id="dyeLotField" promptText="Fx 1234" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+
+                <Label styleClass="form-label" text="Anbefalet pindetykkelse (mm)" wrapText="true"
+                       GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="3">
+                    <image>
+                        <Image url="@../images/icon_needle.png"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                    <TextField fx:id="needleField" promptText="Fx 4,5"/>
+                    <Label fx:id="needleError" managed="false" styleClass="field-error-text" visible="false"
+                           wrapText="true"/>
+                </VBox>
+
+                <Label styleClass="form-label" text="Vaskeanvisning" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" smooth="true" GridPane.columnIndex="1"
+                           GridPane.rowIndex="4">
+                    <image>
+                        <Image url="@../images/icon_wash_form.png"/>
+                    </image>
+                </ImageView>
+                <ComboBox fx:id="washingBox" maxWidth="Infinity" promptText="Vælg vaskeanvisning" styleClass="form-field"
+                          GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+            </GridPane>
+        </VBox>
+    </HBox>
+
+    <!-- Bund: infotekst og knapper -->
+    <HBox alignment="CENTER" spacing="14">
+        <Label fx:id="noteLabel" graphicTextGap="8" maxWidth="Infinity" styleClass="note-box"
+               text="Efter registrering gemmes garnet og vises straks i oversigten." HBox.hgrow="ALWAYS">
+            <graphic>
+                <ImageView fitHeight="18" fitWidth="18" preserveRatio="true" smooth="true">
+                    <image>
+                        <Image url="@../images/info.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Label>
+        <Button fx:id="cancelButton" onAction="#onCancel" styleClass="secondary-button" text="Annullér"/>
+        <Button fx:id="submitButton" defaultButton="true" onAction="#onSubmit" styleClass="primary-button"
+                text="Tilføj garn"/>
+    </HBox>
+</VBox>
